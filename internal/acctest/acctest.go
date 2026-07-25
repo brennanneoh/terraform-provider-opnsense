@@ -65,6 +65,21 @@ func DomainOverridePreCheck(t *testing.T) {
 	}
 }
 
+// BridgeMemberPreCheck skips the test unless OPNSENSE_TEST_BRIDGE_MEMBER is set
+// to an assigned interface (e.g. "lan") that is safe to add to a bridge. Bridge
+// changes are applied immediately, so this must never point at an interface that
+// carries live traffic on a production firewall. Returns the interface name.
+func BridgeMemberPreCheck(t *testing.T) string {
+	t.Helper()
+	AccPreCheck(t)
+
+	member := os.Getenv("OPNSENSE_TEST_BRIDGE_MEMBER")
+	if member == "" {
+		t.Skip("OPNSENSE_TEST_BRIDGE_MEMBER must be set to a safe assigned interface (e.g. 'lan') for bridge tests")
+	}
+	return member
+}
+
 // KeaDhcpv6PreCheck skips the test unless OPNSENSE_KEA_DHCPV6_IFACE is set to a
 // valid interface name (e.g. "wan"). When set, it configures that interface in the
 // Kea DHCPv6 general settings before the test runs and resets it to empty on cleanup.
