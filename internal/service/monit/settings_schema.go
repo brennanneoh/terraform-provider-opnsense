@@ -1,6 +1,8 @@
 package monit
 
 import (
+	"strings"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 	"github.com/browningluke/opnsense-go/pkg/monit"
 	"github.com/browningluke/terraform-provider-opnsense/internal/tools"
@@ -300,12 +302,21 @@ func settingsDataSourceSchema() dschema.Schema {
 	}
 }
 
+// commaListToSlice splits a comma-separated option list into its keys;
+// an empty string maps to nil so nothing is marked selected upstream.
+func commaListToSlice(s string) []string {
+	if s == "" {
+		return nil
+	}
+	return strings.Split(s, ",")
+}
+
 func convertSettingsSchemaToStruct(d *settingsResourceModel) (*monit.Settings, error) {
 	return &monit.Settings{
 		Enabled:                   tools.BoolToString(d.Enabled.ValueBool()),
 		Interval:                  d.Interval.ValueString(),
 		Startdelay:                d.Startdelay.ValueString(),
-		Mailserver:                d.Mailserver.ValueString(),
+		Mailserver:                api.SelectedMapList(commaListToSlice(d.Mailserver.ValueString())),
 		Port:                      d.Port.ValueString(),
 		Username:                  d.Username.ValueString(),
 		Password:                  d.Password.ValueString(),
@@ -320,7 +331,7 @@ func convertSettingsSchemaToStruct(d *settingsResourceModel) (*monit.Settings, e
 		HttpdUsername:             d.HttpdUsername.ValueString(),
 		HttpdPassword:             d.HttpdPassword.ValueString(),
 		HttpdPort:                 d.HttpdPort.ValueString(),
-		HttpdAllow:                d.HttpdAllow.ValueString(),
+		HttpdAllow:                api.SelectedMapList(commaListToSlice(d.HttpdAllow.ValueString())),
 		MmonitUrl:                 d.MmonitUrl.ValueString(),
 		MmonitTimeout:             d.MmonitTimeout.ValueString(),
 		MmonitRegisterCredentials: tools.BoolToString(d.MmonitRegisterCredentials.ValueBool()),
@@ -332,7 +343,7 @@ func convertSettingsStructToSchema(d *monit.Settings) (*settingsResourceModel, e
 		Enabled:                   types.BoolValue(tools.StringToBool(d.Enabled)),
 		Interval:                  types.StringValue(d.Interval),
 		Startdelay:                types.StringValue(d.Startdelay),
-		Mailserver:                types.StringValue(d.Mailserver),
+		Mailserver:                types.StringValue(d.Mailserver.String()),
 		Port:                      types.StringValue(d.Port),
 		Username:                  types.StringValue(d.Username),
 		Password:                  types.StringValue(d.Password),
@@ -347,7 +358,7 @@ func convertSettingsStructToSchema(d *monit.Settings) (*settingsResourceModel, e
 		HttpdUsername:             types.StringValue(d.HttpdUsername),
 		HttpdPassword:             types.StringValue(d.HttpdPassword),
 		HttpdPort:                 types.StringValue(d.HttpdPort),
-		HttpdAllow:                types.StringValue(d.HttpdAllow),
+		HttpdAllow:                types.StringValue(d.HttpdAllow.String()),
 		MmonitUrl:                 types.StringValue(d.MmonitUrl),
 		MmonitTimeout:             types.StringValue(d.MmonitTimeout),
 		MmonitRegisterCredentials: types.BoolValue(tools.StringToBool(d.MmonitRegisterCredentials)),

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/browningluke/opnsense-go/pkg/api"
+	"github.com/browningluke/opnsense-go/pkg/monit"
 	"github.com/browningluke/opnsense-go/pkg/opnsense"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -73,7 +74,7 @@ func (r *settingsResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	resourceModel, err := convertSettingsStructToSchema(&result.Monit)
+	resourceModel, err := convertSettingsStructToSchema(&result.Monit.General)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			fmt.Sprintf("Unable to parse monit settings, got error: %s", err))
@@ -102,7 +103,7 @@ func (r *settingsResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	_, err = r.client.Monit().SettingsSet(ctx, resourceStruct)
+	_, err = r.client.Monit().SettingsSet(ctx, &monit.SettingsGeneral{General: *resourceStruct})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			fmt.Sprintf("Unable to update monit settings, got error: %s", err))
@@ -123,7 +124,7 @@ func (r *settingsResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	resourceModel, err := convertSettingsStructToSchema(&result.Monit)
+	resourceModel, err := convertSettingsStructToSchema(&result.Monit.General)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			fmt.Sprintf("Unable to parse updated monit settings, got error: %s", err))

@@ -62,7 +62,7 @@ func (d *settingsDataSource) Read(ctx context.Context, req datasource.ReadReques
 		return
 	}
 
-	resourceModel, err := convertSettingsStructToSchema(&result.Monit)
+	resourceModel, err := convertSettingsStructToSchema(&result.Monit.General)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			fmt.Sprintf("Unable to parse monit settings, got error: %s", err))
