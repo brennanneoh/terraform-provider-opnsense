@@ -41,7 +41,7 @@ func testAccMonitAlertResourceConfig(recipient, description string) string {
 resource "opnsense_monit_alert" "test" {
   recipient   = %[1]q
   description = %[2]q
-  events      = ["Action", "Timeout"]
+  events      = ["action", "timeout"]
 }
 `, recipient, description)
 }

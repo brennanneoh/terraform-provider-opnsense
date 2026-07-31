@@ -43,7 +43,7 @@ resource "opnsense_monit_service" "unbound" {
 - `pidfile` (String) Absolute path to the PID file. Used when `type` is `process`.
 - `polltime` (String) Custom cron-like poll schedule for this service. When empty, the global Monit polling interval is used.
 - `start` (String) Command (with arguments) used to start the service.
-- `start_timeout` (String) Grace period, in seconds, given to the service after it starts before checks begin failing it.
+- `start_timeout` (String) Grace period, in seconds, given to the service after it starts before checks begin failing it. Defaults to `0`.
 - `stop` (String) Command (with arguments) used to stop the service.
 - `tests` (Set of String) Set of Monit test UUIDs to apply to this service. Test objects are managed outside this provider (via the OPNsense UI or API directly).
 - `timeout` (String) Number of cycles to wait for a start/stop action to complete before timing out. Defaults to `300`.

@@ -42,26 +42,26 @@ resource "opnsense_monit_settings" "settings" {
 
 ### Optional
 
-- `enabled` (Boolean) Enable the Monit service monitoring daemon. Defaults to `false`.
+- `enabled` (Boolean) Enable the Monit service monitoring daemon.
 - `eventqueue_path` (String) Directory used to queue alert events when they cannot be delivered immediately.
 - `eventqueue_slots` (String) Maximum number of events that can be queued.
 - `httpd_allow` (String) Comma-separated list of hosts/networks allowed to access the Monit web interface.
-- `httpd_enabled` (Boolean) Enable the Monit HTTP(S) web interface. Defaults to `false`.
+- `httpd_enabled` (Boolean) Enable the Monit HTTP(S) web interface.
 - `httpd_password` (String, Sensitive) Password for the Monit web interface. Required when `httpd_enabled` is `true`.
-- `httpd_port` (String) Port the Monit web interface listens on. Defaults to `2812`.
-- `httpd_username` (String) Username for the Monit web interface. Defaults to `root`.
-- `interval` (String) Polling interval, in seconds, between two checks of the services. Defaults to `120`.
+- `httpd_port` (String) Port the Monit web interface listens on.
+- `httpd_username` (String) Username for the Monit web interface.
+- `interval` (String) Polling interval, in seconds, between two checks of the services.
 - `logfile` (String) Absolute path to the Monit log file, or `syslog` to log via syslog.
 - `mailserver` (String) SMTP server used to send alert notifications.
-- `mmonit_register_credentials` (Boolean) When enabled, register this system's credentials with the configured M/Monit server. Defaults to `false`.
+- `mmonit_register_credentials` (Boolean) When enabled, register this system's credentials with the configured M/Monit server.
 - `mmonit_timeout` (String) Connection timeout, in seconds, for the M/Monit server.
 - `mmonit_url` (String) URL of an M/Monit server to register with.
 - `password` (String, Sensitive) Password used to authenticate against the SMTP server.
-- `port` (String) SMTP server port. Defaults to `25`.
-- `ssl` (Boolean) When enabled, use SSL/TLS to connect to the SMTP server. Defaults to `false`.
-- `ssl_verify` (Boolean) When enabled, verify the SMTP server's SSL certificate. Defaults to `false`.
-- `ssl_version` (String) SSL/TLS version to use for the SMTP connection: `AUTO`, `TLSV1`, `TLSV11`, `TLSV12`, `TLSV13`. Defaults to `AUTO`.
-- `startdelay` (String) Time to wait, in seconds, before the first check after Monit startup (allows daemons time to start). Defaults to `120`.
+- `port` (String) SMTP server port.
+- `ssl` (Boolean) When enabled, use SSL/TLS to connect to the SMTP server.
+- `ssl_verify` (Boolean) When enabled, verify the SMTP server's SSL certificate.
+- `ssl_version` (String) SSL/TLS version to use for the SMTP connection: `auto`, `tlsv1`, `tlsv11`, `tlsv12`, `tlsv13`.
+- `startdelay` (String) Time to wait, in seconds, before the first check after Monit startup (allows daemons time to start).
 - `statefile` (String) Absolute path to the Monit state file.
 - `username` (String) Username used to authenticate against the SMTP server.
 

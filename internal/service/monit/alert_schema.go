@@ -55,7 +55,7 @@ func alertResourceSchema() schema.Schema {
 				Default:             booldefault.StaticBool(false),
 			},
 			"events": schema.SetAttribute{
-				MarkdownDescription: "Set of events to alert on, e.g. `Action`, `Checksum`, `Connection`, `Content`, `Data`, `Exec`, `Fsflag`, `Gid`, `Icmp`, `Instance`, `Invalid`, `Link`, `NonExist`, `Permission`, `Pid`, `PPid`, `Resource`, `Saturation`, `Size`, `Status`, `Timeout`, `Timestamp`, `Uid`, `Uptime`. When empty, alerts on all events.",
+				MarkdownDescription: "Set of events to alert on, e.g. `action`, `checksum`, `connection`, `content`, `data`, `exec`, `fsflag`, `gid`, `icmp`, `instance`, `invalid`, `link`, `nonexist`, `permission`, `pid`, `ppid`, `resource`, `saturation`, `size`, `status`, `timeout`, `timestamp`, `uid`, `uptime`. When empty, alerts on all events.",
 				Optional:            true,
 				Computed:            true,
 				ElementType:         types.StringType,

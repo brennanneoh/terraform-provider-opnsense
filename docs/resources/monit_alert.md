@@ -16,7 +16,7 @@ Manages a Monit alert recipient.
 resource "opnsense_monit_alert" "admin" {
   recipient   = "admin@example.com"
   description = "Notify admin on service failures"
-  events      = ["Action", "Timeout"]
+  events      = ["action", "timeout"]
 }
 ```
 
@@ -31,7 +31,7 @@ resource "opnsense_monit_alert" "admin" {
 
 - `description` (String) Optional description for this alert.
 - `enabled` (Boolean) Enable this alert. Defaults to `true`.
-- `events` (Set of String) Set of events to alert on, e.g. `Action`, `Checksum`, `Connection`, `Content`, `Data`, `Exec`, `Fsflag`, `Gid`, `Icmp`, `Instance`, `Invalid`, `Link`, `NonExist`, `Permission`, `Pid`, `PPid`, `Resource`, `Saturation`, `Size`, `Status`, `Timeout`, `Timestamp`, `Uid`, `Uptime`. When empty, alerts on all events.
+- `events` (Set of String) Set of events to alert on, e.g. `action`, `checksum`, `connection`, `content`, `data`, `exec`, `fsflag`, `gid`, `icmp`, `instance`, `invalid`, `link`, `nonexist`, `permission`, `pid`, `ppid`, `resource`, `saturation`, `size`, `status`, `timeout`, `timestamp`, `uid`, `uptime`. When empty, alerts on all events.
 - `format` (String) Custom message template for the alert email.
 - `not_on` (Boolean) When enabled, negate the selected `events` (alert on all events except the selected ones). Defaults to `false`.
 - `reminder` (String) Resend the alert every N cycles while the condition persists. `0` disables reminders. Defaults to `0`.

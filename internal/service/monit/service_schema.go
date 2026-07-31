@@ -92,10 +92,10 @@ func serviceResourceSchema() schema.Schema {
 				Default:             stringdefault.StaticString("300"),
 			},
 			"start_timeout": schema.StringAttribute{
-				MarkdownDescription: "Grace period, in seconds, given to the service after it starts before checks begin failing it.",
+				MarkdownDescription: "Grace period, in seconds, given to the service after it starts before checks begin failing it. Defaults to `0`.",
 				Optional:            true,
 				Computed:            true,
-				Default:             stringdefault.StaticString(""),
+				Default:             stringdefault.StaticString("0"),
 			},
 			"address": schema.StringAttribute{
 				MarkdownDescription: "Hostname or IP address to check. Used when `type` is `host` or `network`.",
