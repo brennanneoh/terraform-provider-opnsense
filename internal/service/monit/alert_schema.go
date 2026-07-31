@@ -128,7 +128,7 @@ func convertAlertSchemaToStruct(d *alertResourceModel) (*monit.Alert, error) {
 	return &monit.Alert{
 		Enabled:     tools.BoolToString(d.Enabled.ValueBool()),
 		Recipient:   d.Recipient.ValueString(),
-		NotOn:       tools.BoolToString(d.NotOn.ValueBool()),
+		Noton:       tools.BoolToString(d.NotOn.ValueBool()),
 		Events:      api.SelectedMapList(tools.SetToStringSlice(d.Events)),
 		Format:      d.Format.ValueString(),
 		Reminder:    d.Reminder.ValueString(),
@@ -140,7 +140,7 @@ func convertAlertStructToSchema(d *monit.Alert) (*alertResourceModel, error) {
 	return &alertResourceModel{
 		Enabled:     types.BoolValue(tools.StringToBool(d.Enabled)),
 		Recipient:   types.StringValue(d.Recipient),
-		NotOn:       types.BoolValue(tools.StringToBool(d.NotOn)),
+		NotOn:       types.BoolValue(tools.StringToBool(d.Noton)),
 		Events:      tools.StringSliceToSet(d.Events),
 		Format:      types.StringValue(d.Format),
 		Reminder:    types.StringValue(d.Reminder),
