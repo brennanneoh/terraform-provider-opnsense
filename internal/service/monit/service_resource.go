@@ -73,11 +73,25 @@ func (r *serviceResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	data.Id = types.StringValue(id)
+	created, err := r.client.Monit().GetService(ctx, id)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to read created service, got error: %s", err))
+		return
+	}
+
+	serviceModel, err := convertServiceStructToSchema(created)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to parse created service, got error: %s", err))
+		return
+	}
+
+	serviceModel.Id = types.StringValue(id)
 
 	tflog.Trace(ctx, "created a monit_service resource")
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &serviceModel)...)
 }
 
 func (r *serviceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {

@@ -73,11 +73,25 @@ func (r *alertResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	data.Id = types.StringValue(id)
+	created, err := r.client.Monit().GetAlert(ctx, id)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to read created alert, got error: %s", err))
+		return
+	}
+
+	alertModel, err := convertAlertStructToSchema(created)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to parse created alert, got error: %s", err))
+		return
+	}
+
+	alertModel.Id = types.StringValue(id)
 
 	tflog.Trace(ctx, "created a monit_alert resource")
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &alertModel)...)
 }
 
 func (r *alertResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
