@@ -39,7 +39,7 @@ resource "opnsense_syslog_destination" "crowdsec" {
 - `level` (String) Minimum log level to forward (e.g. `info`, `notice`, `warn`, `err`, `crit`). Leave `""` to forward all levels. Defaults to `""`.
 - `port` (String) Port of the remote log collector. Defaults to `514`.
 - `program` (Set of String) Applications/programs to forward (e.g. `filterlog`, `suricata`). Leave empty to forward all applications. Defaults to `[]`.
-- `rfc5424` (Boolean) Use RFC 5424 message format instead of the legacy RFC 3164 format. Defaults to `false`.
+- `rfc5424` (Boolean) When enabled, uses RFC 5424 message format instead of the legacy RFC 3164 format. Defaults to `false`.
 - `transport` (String) Transport used to deliver log messages. One of `udp4`, `udp6`, `tcp4`, `tcp6`, `tls4`, `tls6`. Defaults to `udp4`.
 
 ### Read-Only

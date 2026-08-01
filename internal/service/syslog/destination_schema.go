@@ -4,10 +4,12 @@ import (
 	"github.com/browningluke/opnsense-go/pkg/api"
 	"github.com/browningluke/opnsense-go/pkg/syslog"
 	"github.com/browningluke/terraform-provider-opnsense/internal/tools"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	dschema "github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -57,12 +59,14 @@ func destinationResourceSchema() schema.Schema {
 				ElementType:         types.StringType,
 				Optional:            true,
 				Computed:            true,
+				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 			"program": schema.SetAttribute{
 				MarkdownDescription: "Applications/programs to forward (e.g. `filterlog`, `suricata`). Leave empty to forward all applications. Defaults to `[]`.",
 				ElementType:         types.StringType,
 				Optional:            true,
 				Computed:            true,
+				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 			"hostname": schema.StringAttribute{
 				MarkdownDescription: "Hostname or IP address of the remote log collector.",
@@ -81,7 +85,7 @@ func destinationResourceSchema() schema.Schema {
 				Default:             stringdefault.StaticString("514"),
 			},
 			"rfc5424": schema.BoolAttribute{
-				MarkdownDescription: "Use RFC 5424 message format instead of the legacy RFC 3164 format. Defaults to `false`.",
+				MarkdownDescription: "When enabled, uses RFC 5424 message format instead of the legacy RFC 3164 format. Defaults to `false`.",
 				Optional:            true,
 				Computed:            true,
 				Default:             booldefault.StaticBool(false),
