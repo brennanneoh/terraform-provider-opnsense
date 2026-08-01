@@ -150,9 +150,25 @@ func (r *serviceResource) Update(ctx context.Context, req resource.UpdateRequest
 		return
 	}
 
+	updated, err := r.client.Monit().GetService(ctx, data.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to read updated service, got error: %s", err))
+		return
+	}
+
+	serviceModel, err := convertServiceStructToSchema(updated)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to parse updated service, got error: %s", err))
+		return
+	}
+
+	serviceModel.Id = data.Id
+
 	tflog.Trace(ctx, "updated monit_service resource")
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &serviceModel)...)
 }
 
 func (r *serviceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

@@ -150,9 +150,25 @@ func (r *alertResource) Update(ctx context.Context, req resource.UpdateRequest, 
 		return
 	}
 
+	updated, err := r.client.Monit().GetAlert(ctx, data.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to read updated alert, got error: %s", err))
+		return
+	}
+
+	alertModel, err := convertAlertStructToSchema(updated)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			fmt.Sprintf("Unable to parse updated alert, got error: %s", err))
+		return
+	}
+
+	alertModel.Id = data.Id
+
 	tflog.Trace(ctx, "updated monit_alert resource")
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &alertModel)...)
 }
 
 func (r *alertResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
