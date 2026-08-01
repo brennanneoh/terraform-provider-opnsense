@@ -65,6 +65,30 @@ func DomainOverridePreCheck(t *testing.T) {
 	}
 }
 
+// AssignmentSpareDevicePreCheck skips the test unless OPNSENSE_TEST_ASSIGNMENT_SPARE_DEVICE
+// is set to a device name that is safe to assign/unassign (i.e. not carrying live
+// traffic), returning that device name. Interface assignment tests create and
+// destroy a logical interface bound to this device; on a single-NIC CI VM there is
+// no such spare device, so this must be gated rather than assumed available.
+// Called before resource.Test builds the test case's Config strings, so it runs
+// even when TF_ACC is unset. Don't fail non-acceptance runs; resource.Test will
+// skip the test itself once invoked.
+func AssignmentSpareDevicePreCheck(t *testing.T) string {
+	t.Helper()
+
+	device := os.Getenv("OPNSENSE_TEST_ASSIGNMENT_SPARE_DEVICE")
+	if device == "" {
+		return ""
+	}
+
+	if os.Getenv("TF_ACC") == "" {
+		return device
+	}
+
+	AccPreCheck(t)
+	return device
+}
+
 // KeaDhcpv6PreCheck skips the test unless OPNSENSE_KEA_DHCPV6_IFACE is set to a
 // valid interface name (e.g. "wan"). When set, it configures that interface in the
 // Kea DHCPv6 general settings before the test runs and resets it to empty on cleanup.
