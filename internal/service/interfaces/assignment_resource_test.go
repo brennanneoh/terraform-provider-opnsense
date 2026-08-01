@@ -12,7 +12,9 @@ import (
 // delete lifecycle by assigning a spare device to a new optional interface.
 // Skipped unless OPNSENSE_TEST_ASSIGNMENT_SPARE_DEVICE is set: the CI VM is
 // single-NIC with that NIC already carrying wan traffic, so there is no
-// device it's safe to assign and unassign here.
+// device it's safe to assign and unassign here. Also requires OPNsense 26.7+
+// — the underlying AssignmentController endpoint doesn't exist on the 26.1
+// image the CI VM uses.
 func TestAccInterfacesAssignmentResource(t *testing.T) {
 	device := acctest.AssignmentSpareDevicePreCheck(t)
 	if device == "" {

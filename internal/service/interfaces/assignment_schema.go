@@ -22,6 +22,7 @@ type assignmentResourceModel struct {
 func assignmentResourceSchema() schema.Schema {
 	return schema.Schema{
 		MarkdownDescription: "Assigns a physical (or virtual) device to a logical interface, such as `wan`, `lan`, or an optional `optN` interface. " +
+			"Requires OPNsense 26.7 or later; the underlying API endpoint doesn't exist on earlier versions. " +
 			"OPNsense's REST API does not currently expose the interface's general configuration (IPv4/IPv6 addressing mode, enable, MTU, etc.) " +
 			"— only this device assignment, description, and lock flag can be managed here.\n\n" +
 			"To manage the existing `wan` or `lan` interface, import it first: `terraform import opnsense_interfaces_assignment.wan wan`. " +

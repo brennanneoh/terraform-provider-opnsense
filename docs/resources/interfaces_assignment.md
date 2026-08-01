@@ -2,13 +2,13 @@
 page_title: "opnsense_interfaces_assignment Resource - terraform-provider-opnsense"
 subcategory: Interfaces
 description: |-
-  Assigns a physical (or virtual) device to a logical interface, such as wan, lan, or an optional optN interface. OPNsense's REST API does not currently expose the interface's general configuration (IPv4/IPv6 addressing mode, enable, MTU, etc.) — only this device assignment, description, and lock flag can be managed here.
+  Assigns a physical (or virtual) device to a logical interface, such as wan, lan, or an optional optN interface. Requires OPNsense 26.7 or later; the underlying API endpoint doesn't exist on earlier versions. OPNsense's REST API does not currently expose the interface's general configuration (IPv4/IPv6 addressing mode, enable, MTU, etc.) — only this device assignment, description, and lock flag can be managed here.
   To manage the existing wan or lan interface, import it first: terraform import opnsense_interfaces_assignment.wan wan. Creating a new assignment adds an additional optional interface (opt1, opt2, ...); terraform destroy unassigns the interface.
 ---
 
 # opnsense_interfaces_assignment (Resource)
 
-Assigns a physical (or virtual) device to a logical interface, such as `wan`, `lan`, or an optional `optN` interface. OPNsense's REST API does not currently expose the interface's general configuration (IPv4/IPv6 addressing mode, enable, MTU, etc.) — only this device assignment, description, and lock flag can be managed here.
+Assigns a physical (or virtual) device to a logical interface, such as `wan`, `lan`, or an optional `optN` interface. Requires OPNsense 26.7 or later; the underlying API endpoint doesn't exist on earlier versions. OPNsense's REST API does not currently expose the interface's general configuration (IPv4/IPv6 addressing mode, enable, MTU, etc.) — only this device assignment, description, and lock flag can be managed here.
 
 To manage the existing `wan` or `lan` interface, import it first: `terraform import opnsense_interfaces_assignment.wan wan`. Creating a new assignment adds an additional optional interface (`opt1`, `opt2`, ...); `terraform destroy` unassigns the interface.
 
