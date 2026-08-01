@@ -71,6 +71,14 @@ func DomainOverridePreCheck(t *testing.T) {
 // carries live traffic on a production firewall. Returns the interface name.
 func BridgeMemberPreCheck(t *testing.T) string {
 	t.Helper()
+
+	// Called before resource.Test builds the test case's Config strings, so
+	// it runs even when TF_ACC is unset. Don't fail non-acceptance runs;
+	// resource.Test will skip the test itself once invoked.
+	if os.Getenv("TF_ACC") == "" {
+		return ""
+	}
+
 	AccPreCheck(t)
 
 	member := os.Getenv("OPNSENSE_TEST_BRIDGE_MEMBER")
